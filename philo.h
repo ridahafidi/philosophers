@@ -6,7 +6,7 @@
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:11:47 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/13 02:46:01 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/13 18:26:24 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include "./libft/libft.h"
+#include <errno.h>
 
 typedef struct s_fork
 {
@@ -35,6 +36,8 @@ typedef struct s_philo
 	t_fork			*right_fork;
 	long			last_meal;
 	int				meals_eaten;
+    pthread_mutex_t lm;
+    pthread_mutex_t me;
 	pthread_t	philo;
     t_data      *data;
 }	t_philo;
@@ -42,14 +45,16 @@ typedef struct s_philo
 typedef struct s_data
 {
     int				num_philos; // n philos
-    int				time_to_die; // time stamp to die // quanta if a process exec timestamp
-    int				time_to_eat; // 
-    int				time_to_sleep;
+    long			time_to_die; // time stamp to die // quanta if a process exec timestamp
+    long			time_to_eat; // time the thread
+    long			time_to_sleep;
     int				max_meals;
-    int             start_simulation;
-    int             end_simualtion; // 0 if 
+    long            start_time_ms;
+    int             stop; // 0 if shouldnt stop 1 if should stop 
     t_philo         *philos;
     t_fork          *forks;
+    pthread_mutex_t stop_mutex;
+    pthread_mutex_t print_mutex;
 }	t_data;
 
 typedef enum s_opm
@@ -60,6 +65,18 @@ typedef enum s_opm
     DESTROY,
 }           t_opm;
 
+typedef enum s_act
+{
+    TAKEN_FORK,
+    EATING,
+    SLEEPING,
+    THINKING,
+    DEAD,
+}           t_act;
+
 void    *safe_malloc(size_t n_bytes);
+void    safe_handle_mutex(pthread_mutex_t *mtx, t_opm opm);
+long    now_ms(void);
+long    timestamp(long start_time_ms);
 
 #endif
