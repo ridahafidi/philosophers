@@ -6,7 +6,7 @@
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:11:47 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/13 18:26:24 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/14 22:23:23 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,14 @@ typedef enum s_opm
     DESTROY,
 }           t_opm;
 
+typedef enum s_tpm
+{
+    CREATE,
+    JOIN,
+    DETACH,
+    
+}           t_tpm;
+
 typedef enum s_act
 {
     TAKEN_FORK,
@@ -74,9 +82,22 @@ typedef enum s_act
     DEAD,
 }           t_act;
 
+void    safe_handle_pthread(pthread_t *thread,void *arg, void *(*routine)(void *), t_tpm tpm);
 void    *safe_malloc(size_t n_bytes);
 void    safe_handle_mutex(pthread_mutex_t *mtx, t_opm opm);
 long    now_ms(void);
 long    timestamp(long start_time_ms);
+void    smart_sleep(long duration_ms, t_data *data);
+void    state_print(t_data *data, t_act act, t_philo *philo);
+void    dinner(t_data *data);
+int     death_check(long last_meal, long time_to_die);
+long    get_last_meal(t_philo *philo);
+int check_stop(t_data *data);
+void    set_stop(t_data *data);
+int check_meals_eaten(t_data *data, t_philo *philo);
+void    *routine(void *arg);
+void    set_last_meal(t_philo *philo, int flag);
+void precise_usleep(long usec);
+void    clean_data(t_data *data);
 
 #endif

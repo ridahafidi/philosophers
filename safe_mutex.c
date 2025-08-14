@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe.c                                             :+:      :+:    :+:   */
+/*   safe_mutex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:30:05 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/13 18:31:17 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/14 15:40:58 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    *safe_malloc(size_t n_bytes)
-{
-    void *ret;
 
-    ret = malloc(n_bytes);
-    if (!ret)
-    {
-        ft_putstr_fd("malloc failed \n", STDERR_FILENO);
-        exit(EXIT_FAILURE);
-    }
-    return (ret);
-}
-
-void    status_err(int status)
+static void    status_err(int status)
 {
     if (status == EAGAIN)
         ft_putstr_fd("Resource temporarily unavailable\n", STDERR_FILENO);
@@ -43,7 +31,7 @@ void    status_err(int status)
         ft_putstr_fd("Unknown error\n", STDERR_FILENO);
 }
 
-void    handle_err(int status, t_opm opm)
+static void    handle_err(int status, t_opm opm)
 {
     if (status == 0)
         return; // Success

@@ -6,7 +6,7 @@
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 22:15:32 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/13 18:03:40 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/14 22:23:40 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,14 @@ int main(int ac, char **av)
         if (check_args(av))
             return (EXIT_FAILURE);
         fill_data(av, &data); // fill table
+        if (data.num_philos > 200)
+        {
+            ft_putstr_fd("bzaf", 2);
+            return  (EXIT_FAILURE);
+        }
         data_init(&data);// 3 180 60 60
+        dinner(&data);
+        clean_data(&data);
         return (EXIT_SUCCESS);
     }
     return (EXIT_FAILURE);
