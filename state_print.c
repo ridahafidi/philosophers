@@ -6,7 +6,7 @@
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 18:04:30 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/14 22:21:21 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/15 21:24:38 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,17 @@ void    state_print(t_data *data, t_act act, t_philo *philo)
     int stopped;
 
     ts = now_ms() - data->start_time_ms;
-    safe_handle_mutex(&data->print_mutex, LOCK);
     safe_handle_mutex(&data->stop_mutex, LOCK);
+    // data->stop = ts >= data->time_to_die;
     stopped = data->stop;
     safe_handle_mutex(&data->stop_mutex, UNLOCK);
     if (stopped && act != DEAD)
     {
-        safe_handle_mutex(&data->print_mutex, UNLOCK);    
-        return;
+        // safe_handle_mutex(&data->print_mutex, UNLOCK);
+        set_stop(data);
+        return ;
     }
+    safe_handle_mutex(&data->print_mutex, LOCK);
     print_format(ts, act, philo->id);
-    if (act != DEAD)
-        safe_handle_mutex(&data->print_mutex, UNLOCK);
+    safe_handle_mutex(&data->print_mutex, UNLOCK);
 }

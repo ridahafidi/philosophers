@@ -6,7 +6,7 @@
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:53:41 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/14 22:31:21 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/15 22:18:23 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void    *monitor(void *arg)
             last_meal = get_last_meal(&data->philos[i]);
             if (death_check(last_meal, data->time_to_die))
             {
-                state_print(data, DEAD, &data->philos[i]);
                 set_stop(data);
+                state_print(data, DEAD, &data->philos[i]);
                 return (NULL);
             }
-            smart_sleep(1, data);
+            // smart_sleep(1, data);
             if (!check_meals_eaten(data, &data->philos[i]))
                 all_done = 0;
             i++;
@@ -73,9 +73,9 @@ void    lunch_threads(t_data *data)
     i = 0;
     while (i < data->num_philos)
     {
-        if (i % 2 == 0)
-            safe_handle_pthread(&data->philos[i].philo, &data->philos[i], routine, CREATE);
-        else
+        // if (i % 2 == 0)
+        //     safe_handle_pthread(&data->philos[i].philo, &data->philos[i], routine, CREATE);
+        // else
             safe_handle_pthread(&data->philos[i].philo, &data->philos[i], routine, CREATE);
         i++;
     }

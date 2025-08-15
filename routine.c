@@ -6,7 +6,7 @@
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 21:11:44 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/14 21:11:58 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/15 23:30:30 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int update_meals_eaten(t_philo *philo, t_data *data)
 
 int    eat(t_philo *philo, t_data *data)
 {
-    set_last_meal(philo, 1);
     state_print(data, EATING, philo);
+    set_last_meal(philo, 1);
     smart_sleep(data->time_to_eat, data);
     if (philo->id % 2 != 0)
     {
@@ -77,8 +77,14 @@ void    sleep_think(t_philo *philo, t_data *data)
     state_print(data, SLEEPING, philo);
     smart_sleep(data->time_to_sleep, data);
     state_print(data, THINKING, philo);
+    if (data->num_philos % 2 != 0)
+    {
+        if (data->time_to_eat < data->time_to_sleep)
+            smart_sleep(1, data);
+        else
+            smart_sleep(data->time_to_sleep , data);
+    }
 }
-
 void    *routine(void *arg)
 {
     t_philo *philo;
@@ -86,8 +92,6 @@ void    *routine(void *arg)
 
     philo = (t_philo *)arg;
     data = philo->data;
-    if (philo->id % 2 == 0)
-        smart_sleep(1, data);
     while (!check_stop(data) && !check_meals_eaten(data, philo))
     {
         if(take_fork(philo, data))
