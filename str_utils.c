@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                      :+:      :+:    :+:   */
+/*   str_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,42 +9,55 @@
 /*   Updated: 2025/08/16 22:51:06 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
-long	now_ms(void)
+int	ft_atoi(const char *nptr)
 {
-	struct timeval	tv;
-	long			now_ms;
+	char	*temp_nptr;
+	int		sign;
+	int		result;
 
-	gettimeofday(&tv, NULL);
-	now_ms = tv.tv_sec * 1e3 + tv.tv_usec / 1e3;
-	return (now_ms);
-}
-
-int	death_check(long last_meal, long time_to_die)
-{
-	if ((now_ms() - last_meal) >= time_to_die)
-		return (1);
-	return (0);
-}
-
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	smart_sleep(long duration_ms, t_data *data)
-{
-	long	start;
-	long	sleep_interval;
-
-	start = get_time();
-	sleep_interval = 50;
-	while ((get_time() - start) < duration_ms && (!check_stop(data)))
+	result = 0;
+	sign = 1;
+	temp_nptr = (char *)nptr;
+	while (*temp_nptr == ' ' || (*temp_nptr >= 9 && *temp_nptr <= 13))
+		temp_nptr++;
+	if (*temp_nptr == '-')
 	{
-		usleep(sleep_interval);
+		sign = -1;
+		temp_nptr++;
 	}
+	else if (*temp_nptr == '+')
+		temp_nptr++;
+	while (ft_isdigit(*temp_nptr))
+	{
+		result = (result * 10) + (*temp_nptr - '0');
+		temp_nptr++;
+	}
+	return (result * sign);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (*s)
+	{
+		ft_putchar_fd(*s, fd);
+		s++;
+	}
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	else
+		return (0);
 }
