@@ -71,6 +71,17 @@ int	eat(t_philo *philo, t_data *data)
 	return (update_meals_eaten(philo, data));
 }
 
+long	get_time_to_sleep(t_data *data, t_philo *philo)
+{
+	long	last_meal;
+
+	last_meal =	now_ms() - get_last_meal(philo);
+	if (data->time_to_die < last_meal + data->time_to_sleep)
+		return (data->time_to_die - last_meal);
+	return (data->time_to_sleep);
+}
+
+
 void	sleep_think(t_philo *philo, t_data *data)
 {
 	state_print(data, SLEEPING, philo);
@@ -80,8 +91,10 @@ void	sleep_think(t_philo *philo, t_data *data)
 	{
 		if (data->time_to_eat < data->time_to_sleep)
 			smart_sleep(1, data);
-		else
+		else if (data->num_philos < 7)
 			smart_sleep(data->time_to_sleep, data);
+		else
+			smart_sleep(get_time_to_sleep(data, philo), data);
 	}
 }
 

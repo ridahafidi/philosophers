@@ -77,6 +77,13 @@ void	data_init(t_data *data)
 	philo_init(data);
 }
 
+void	print_man(void)
+{
+	ft_putstr_fd("Wrong usage !\n", STDERR_FILENO);
+	ft_putstr_fd("Usage : ./philo philos_number time_to_die time_to_eat time_to_sleep\n", STDERR_FILENO);
+	ft_putstr_fd("all values should be greater than zero and reel numbers\n", STDERR_FILENO);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -84,11 +91,14 @@ int	main(int ac, char **av)
 	if (ac == 5 || ac == 6)
 	{
 		if (check_args(av))
+		{
+			print_man();
 			return (EXIT_FAILURE);
+		}
 		fill_data(av, &data);
 		if (data.num_philos > 200)
 		{
-			ft_putstr_fd("bzaf", 2);
+			ft_putstr_fd("Try lower numbers\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}
 		data_init(&data);

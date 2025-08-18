@@ -21,6 +21,7 @@ long	now_ms(void)
 	return (now_ms);
 }
 
+
 int	death_check(long last_meal, long time_to_die)
 {
 	if ((now_ms() - last_meal) >= time_to_die)

@@ -98,5 +98,6 @@ int						check_args(char **av);
 int						ft_atoi(const char *nptr);
 void					ft_putstr_fd(char *s, int fd);
 int						ft_isdigit(int c);
+void					precise_usleep(long usec);
 
 #endif
