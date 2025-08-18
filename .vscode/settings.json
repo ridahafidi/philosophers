@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "climits": "cpp",
-        "libft.h": "c",
-        "philo.h": "c",
-        "chrono": "c"
-    }
-}
