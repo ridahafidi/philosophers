@@ -16,7 +16,8 @@ SRCS = main.c \
 	safe_thread.c \
 	state_print.c \
 	str_utils.c \
-	time.c
+	time.c \
+	extra_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

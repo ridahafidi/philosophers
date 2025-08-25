@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                   :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 22:49:43 by rhafidi           #+#    #+#             */
-/*   Updated: 2025/08/16 22:51:06 by rhafidi          ###   ########.fr       */
+/*   Updated: 2025/08/18 17:28:14 by rhafidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "philo.h"
 
 int	take_fork(t_philo *philo, t_data *data)
@@ -70,17 +71,6 @@ int	eat(t_philo *philo, t_data *data)
 	}
 	return (update_meals_eaten(philo, data));
 }
-
-long	get_time_to_sleep(t_data *data, t_philo *philo)
-{
-	long	last_meal;
-
-	last_meal =	now_ms() - get_last_meal(philo);
-	if (data->time_to_die < last_meal + data->time_to_sleep)
-		return (data->time_to_die - last_meal);
-	return (data->time_to_sleep);
-}
-
 
 void	sleep_think(t_philo *philo, t_data *data)
 {

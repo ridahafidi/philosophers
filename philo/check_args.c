@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                      :+:      :+:    :+:   */
+/*   check_args.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhafidi <rhafidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,41 +11,30 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-long	now_ms(void)
+int	check_args(char **av)
 {
-	struct timeval	tv;
-	long			now_ms;
+	int	i;
+	int	j;
 
-	gettimeofday(&tv, NULL);
-	now_ms = tv.tv_sec * 1e3 + tv.tv_usec / 1e3;
-	return (now_ms);
-}
-
-
-int	death_check(long last_meal, long time_to_die)
-{
-	if ((now_ms() - last_meal) >= time_to_die)
-		return (1);
-	return (0);
-}
-
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	smart_sleep(long duration_ms, t_data *data)
-{
-	long	start;
-	long	sleep_interval;
-
-	start = get_time();
-	sleep_interval = 50;
-	while ((get_time() - start) < duration_ms && (!check_stop(data)))
+	i = 1;
+	while (av[i])
 	{
-		usleep(sleep_interval);
+		j = 0;
+		if (av[i][j] == '+')
+			j++;
+		else if (av[i][j] == '-')
+			return (1);
+		while (av[i][j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (1);
+			j++;
+		}
+		if (!ft_atoi(av[i]))
+			return (1);
+		if (j > 10 || (unsigned int)ft_atoi(av[i]) > INT_MAX)
+			return (1);
+		i++;
 	}
+	return (0);
 }

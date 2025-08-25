@@ -99,5 +99,7 @@ int						ft_atoi(const char *nptr);
 void					ft_putstr_fd(char *s, int fd);
 int						ft_isdigit(int c);
 void					precise_usleep(long usec);
+void					print_man(void);
+long					get_time_to_sleep(t_data *data, t_philo *philo);
 
 #endif
